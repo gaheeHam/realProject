@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icia.lectureQuiz.ILectureQuizDao">
+
+	<select id="selectLectureQuiz" parameterType="String" resultType="LectureQuiz">
+		SELECT cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, COUNT(gr_id) AS gr_id,
+		ROUND(AVG(gr_score),0) AS gr_score, cl_id
+		FROM lectureQuiz
+		WHERE cl_id=#{id} and gr_kind= 'Q'
+		GROUP BY cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, cl_id
+	</select>
+
+	<select id="selectLectureTest" parameterType="String" resultType="LectureQuiz">
+		SELECT cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, COUNT(gr_id) AS gr_id,
+		ROUND(AVG(gr_score),0) AS gr_score, cl_id
+		FROM lectureQuiz
+		WHERE cl_id=#{id} and gr_kind= 'T'
+		GROUP BY cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, cl_id
+	</select>
+
+	<select id="allSelectLectureQuiz" parameterType="String" resultType="LectureQuiz">
+	SELECT *
+		FROM(SELECT cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, COUNT(gr_id) AS gr_id,
+				 ROUND(AVG(gr_score),0) AS gr_score, cl_id
+   			 FROM lectureQuiz
+    		 WHERE cl_id=#{id} and gr_kind='Q' 
+    		 GROUP BY cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, cl_id, gr_kind) 
+	WHERE cl_clname LIKE '%${cont}%' OR Co_name LIKE '%${cont}%'
+	</select>
+	
+	<select id="classSelectLectureQuiz" parameterType="String" resultType="LectureQuiz">
+		SELECT cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, COUNT(gr_id) AS gr_id,
+		ROUND(AVG(gr_score),0) AS gr_score, cl_id
+		FROM lectureQuiz
+		WHERE cl_id=#{id} and gr_kind='Q' and cl_clname LIKE '%${cont}%'
+		GROUP BY cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, cl_id
+	</select>
+	
+	<select id="courseSelectLectureQuiz" parameterType="String" resultType="LectureQuiz">
+		SELECT cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, COUNT(gr_id) AS gr_id,
+		ROUND(AVG(gr_score),0) AS gr_score, cl_id
+		FROM lectureQuiz
+		WHERE cl_id=#{id} and gr_kind='Q' and Co_name LIKE '%${cont}%'
+		GROUP BY cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, cl_id
+	</select>
+	
+	<select id="allSelectLectureTest" parameterType="String" resultType="LectureQuiz">
+	SELECT *
+		FROM(SELECT cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, COUNT(gr_id) AS gr_id,
+				 ROUND(AVG(gr_score),0) AS gr_score, cl_id
+   			 FROM lectureQuiz
+    		 WHERE cl_id=#{id} and gr_kind='T' 
+    		 GROUP BY cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, cl_id, gr_kind) 
+	WHERE cl_clname LIKE '%${cont}%' OR Co_name LIKE '%${cont}%'
+	</select>
+	
+	<select id="classSelectLectureTest" parameterType="String" resultType="LectureQuiz">
+		SELECT cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, COUNT(gr_id) AS gr_id,
+		ROUND(AVG(gr_score),0) AS gr_score, cl_id
+		FROM lectureQuiz
+		WHERE cl_id=#{id} and gr_kind='T' and cl_clname LIKE '%${cont}%'
+		GROUP BY cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, cl_id
+	</select>
+	
+	<select id="courseSelectLectureTest" parameterType="String" resultType="LectureQuiz">
+		SELECT cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, COUNT(gr_id) AS gr_id,
+		ROUND(AVG(gr_score),0) AS gr_score, cl_id
+		FROM lectureQuiz
+		WHERE cl_id=#{id} and gr_kind='T' and Co_name LIKE '%${cont}%'
+		GROUP BY cl_idnum, cl_clname, Co_name, cl_lcnum, co_lv, cl_id
+	</select>
+
+	<select id="LectureQuizShow" parameterType="String" resultType="LectureQuiz">
+		SELECT Co_name, cl_lcnum, co_lv, gr_id AS gr_id1, gr_score
+		FROM lectureQuiz
+		WHERE cl_id=#{id} and Co_name=#{name} and cl_lcnum= #{lcnum} and gr_kind='Q'
+	</select>
+	
+	<select id="LectureTestShow" parameterType="LectureQuiz" resultType="LectureQuiz">
+		SELECT cl_idnum, Co_name, cl_lcnum, co_lv, gr_id AS gr_id1, gr_score
+		FROM lectureQuiz
+		WHERE cl_id=#{cl_id} and Co_name=#{co_name} and cl_lcnum= #{cl_lcnum} and gr_kind='T'
+	</select>
+	
+	<insert id="studentCommentInsert" parameterType="LectureQuiz">
+		INSERT INTO tsetfeedback VALUES(#{cl_lcnum}, #{cl_idnum}, #{co_lv}, #{gr_id1}, #{gpa_feedback})
+	</insert>
+		
+</mapper>
