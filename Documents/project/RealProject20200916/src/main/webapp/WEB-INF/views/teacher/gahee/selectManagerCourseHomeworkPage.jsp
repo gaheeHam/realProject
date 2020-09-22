@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -128,6 +129,13 @@ height: 500px;
 <input type="hidden" id='token' data-token-name='${_csrf.headerName }' value='${_csrf.token }'/>
 </form>
 
+	<%-- <form id="goHwResult2" action="selectHwResultPage" method="get">
+	<input type='hidden' name='hw_lv' value=" $('#goHwResult').data('lv') ">
+	<input type='hidden' name='hw_idnum' value=" $('#goHwResult').data('idnum')">
+	<input type='hidden' name='hw_num' value=" $('#goHwResult').data('num')">
+	<input type='hidden' id='token' data-token-name='${_csrf.headerName }' value='${_csrf.token }'/>
+	<input type='hidden' name='hw_id' value=" $('#goHwResult').data('id')">
+	</form> --%>
 
 
  <div id="articleView_layer">
@@ -172,6 +180,8 @@ var subvd="";
 		$('form').append("<input type='hidden' name='hw_lv' value='"+lv+"'>");
 		$('form').submit();	
 	}
+ 
+ 
  
  
 	function homeworkList(num,lv,idnum,i) {
@@ -222,8 +232,7 @@ var subvd="";
 			type:'GET',
 			async: false,
 			dataType: 'json',
-			beforeSend : function(xhr)
-			{
+			beforeSend : function(xhr){
 				//이거 안하면 403 error
 				//데이터를 전송하기 전에 헤더에 csrf값을 설정한다
 				var $token = $("#token");
@@ -237,6 +246,7 @@ var subvd="";
 					stList[i]=aaList[i].aa_id;
 					//$('#contents_layer').append("<p>"+aaList[i].aa_id+"</p>");	
 				}
+				
 				sendHW(cl_lv,cl_idnum,co_num);
 				
 			},
@@ -247,7 +257,6 @@ var subvd="";
 		});
 		 
 	}
-	//url:'rest/aaList?cl_lv='+cl_lv+'&cl_idnum='+cl_idnum,
 	
 			
 			function sendHW(lv, idnum, num) {
@@ -278,7 +287,9 @@ var subvd="";
 						for(var i in stList){
 							for (var j in stHWList){
 								if(stList[i]==stHWList[j]){
+									//$('#tb').append("<tr><td>"+stHWList[j]+"</td><td>O</td><td><a href='#' id = 'goHwResult' onclick=\"document.getElementById('goHwResult2').submit();\" data-lv='"+lv+" 'data-idnum='"+idnum+" 'data-num='"+num+" 'data-id='"+stHWList[j]+"')\">상세보기</a></td></tr>");
 									$('#tb').append("<tr><td>"+stHWList[j]+"</td><td>O</td><td><a onclick=\"goHwResult('"+lv+"','"+idnum+"','"+num+"','"+stHWList[j]+"')\">상세보기</a></td></tr>");
+									console.log($('#goHwResult').data('lv'));
 									number = i;
 								}
 							}
@@ -307,20 +318,39 @@ var subvd="";
 				
 			}
 	
-	
-	function goHwResult(lv, idnum, num, id) {
-		console.log(lv, idnum, num, id);
-		$('body').append("<form action=\"selectHwResultPage?${csrf.parameterName}=${_csrf.token}\" method=\"get\"><input type='hidden' id='token' data-token-name='${_csrf.headerName }' value='${_csrf.token }'/>");
+/* 	$('#goHwResult').click(function(evt){
+		evt.preventDefault();
+		var lv= $('#goHwResult').data('lv');
+		var idnum= $('#goHwResult').data('idnum');
+		var num = $('#goHwResult').data('num');
+		var id= $('#goHwResult').data('id');
+		
+		console.log(lv);
+		console.log(idnum);
+		console.log(num);
+		console.log(id);
+		$('body').append("<form id='goHwResult2' action=\"selectHwResultPage?${csrf.parameterName}=${_csrf.token}\" method=\"post\"></form>");
 		$('form').append("<input type='hidden' name='hw_lv' value="+lv+">");
 		$('form').append("<input type='hidden' name='hw_idnum' value="+idnum+">");
 		$('form').append("<input type='hidden' name='hw_num' value="+num+">");
 		$('form').append("<input type='hidden' id='token' data-token-name='${_csrf.headerName }' value='${_csrf.token }'/>");
-		$('form').append("<input type='hidden' name='hw_id' value="+id+"></form>");
-		$("from").append("");
+		$('form').append("<input type='hidden' name='hw_id' value="+id+">");
+		//console.log($('form').serialize());
 		$('form').submit();
-	}
-
+		
+	}); */
 	
+function goHwResult(lv, idnum, num, id) {
+		console.log(lv, idnum, num, id);
+		$('body').append("<form  action=\"selectHwResultPage?${csrf.parameterName}=${_csrf.token}\" method=\"get\"></form>");
+		$('form').append("<input type='hidden' name='hw_lv' value="+lv+">");
+		$('form').append("<input type='hidden' name='hw_idnum' value="+idnum+">");
+		$('form').append("<input type='hidden' name='hw_num' value="+num+">");
+		$('form').append("<input type='hidden' id='token' data-token-name='${_csrf.headerName }' value='${_csrf.token }'/>");
+		$('form').append("<input type='hidden' name='hw_id' value="+id+">");
+		//console.log($('form').serialize());
+		$('form').submit();
+	} 
 	
 </script>
 
