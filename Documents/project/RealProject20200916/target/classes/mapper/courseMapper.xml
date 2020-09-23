@@ -35,7 +35,7 @@ SELECT * FROM COFL WHERE CO_NUM=#{co_num} AND CO_IDNUM=#{co_idnum}
 
 
 <select id="myfilesList" parameterType="String" resultType="com.icia.course.CourseFilesBean" >
-	SELECT * FROM COFL WHERE FL_NUM=#{co_num}
+	SELECT * FROM COFL WHERE FL_NUM=#{co_num} NOT CO_NUM =0
 </select>
 
 
@@ -52,7 +52,7 @@ DELETE FL WHERE FL_SUBVD='course' AND FL_SYSNAME=#{fl_sysname} AND FL_NUM=#{fl_n
 </delete>
 
 <delete id="deleteCourse">
-DELETE CO WHERE CO_NUM=#{co_num} AND CO_LV=#{co_lv} AND CO_IDNUM=#{co_idnum}
+DELETE CO WHERE CO_NUM=#{co_num} AND CO_LV=#{co_lv} AND CO_IDNUM=#{co_idnum} AND NOT CO_NUM =0
 </delete>
 
 <update id="updateCourse">

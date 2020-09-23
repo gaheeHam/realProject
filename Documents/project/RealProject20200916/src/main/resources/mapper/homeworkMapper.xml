@@ -8,12 +8,12 @@
 INSERT INTO HOMEWORK VALUES(#{hw_hwname},#{hw_id},#{hw_num},#{hw_idnum},#{hw_lv},#{hw_date},#{hw_psfa})
 </insert>
 <select id="selectHomeworkList" parameterType="String" resultType="com.icia.homework.HomeworkBean">
-SELECT * FROM HW WHERE HW_IDNUM= #{hw_idnum} AND HW_LV= #{hw_lv} AND HW_NUM= #{hw_num} AND HW_PSFA='0'
+SELECT * FROM HW WHERE HW_IDNUM= #{hw_idnum} AND HW_LV= #{hw_lv} AND HW_NUM= #{hw_num} AND HW_PSFA='0' AND NOT HW_NUM =0
 </select>
 
 <select id="selectHwResult" parameterType="String" resultMap="hwBean">
 SELECT * FROM HWFL WHERE HW_ID=#{hw_id} AND HW_NUM=#{hw_num} AND HW_LV= #{hw_lv} 
-AND HW_IDNUM=#{hw_idnum} AND NOT HW_PSFA='0' AND FL_SUBVD='homework' AND FL_ID=#{hw_id}
+AND HW_IDNUM=#{hw_idnum} AND NOT HW_PSFA='0' AND FL_SUBVD='homework' AND FL_ID=#{hw_id} AND NOT HW_NUM =0
 </select>
 <resultMap type="com.icia.homework.HomeworkBean" id="hwBean">
 	<id column="HW_IDNUM" property="hw_idnum"/>

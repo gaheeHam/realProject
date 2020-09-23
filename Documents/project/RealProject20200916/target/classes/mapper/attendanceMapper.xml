@@ -6,6 +6,4 @@
  <mapper namespace="com.icia.attendance.IAttendanceDao">
  
 
- 
-
 </mapper> 

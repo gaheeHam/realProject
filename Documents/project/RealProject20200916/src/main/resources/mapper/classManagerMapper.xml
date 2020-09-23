@@ -6,7 +6,7 @@
  <mapper namespace="com.icia.classManager.IClassManagerDao">
  
  <select id="selectCourse" parameterType="String" resultMap="coBean">
- SELECT * FROM COFL WHERE CO_IDNUM=#{value} AND FL_SUBVD ='course'
+ SELECT * FROM COFL WHERE CO_IDNUM=#{value} AND FL_SUBVD ='course' AND NOT CO_NUM =0
  </select>
  
  <resultMap type="com.icia.course.CourseBean" id="coBean">
